@@ -66,22 +66,28 @@ def gomet(num):
 
         driver.find_element_by_css_selector('''//button[.='Join when session starts']''').click()
     except:
+
+
         a = driver.find_elements_by_xpath("//button[@type='button']")
         a[8].click()
     body = wait.until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, 'button[aria-label="Share microphone after join"]')))
+    try:
+        driver.find_element_by_xpath(
+            '''//input[@data-automation-id="change-name-and-email-dialog__edit-name"]''').send_keys(
+            'muhammed basil shah')
+        driver.find_element_by_xpath("//button[@type='submit']").click()
 
-    # driver.find_element_by_id('attendee-name').send_keys('muhammed basil shah') embeded system
-    driver.find_element_by_xpath(
-        '''//input[@data-automation-id="change-name-and-email-dialog__edit-name"]''').send_keys('muhammed basil shah')
-    driver.find_element_by_xpath("//button[@type='submit']").click()
+        total_num = driver.find_elements_by_xpath("//button[@type='button']")[2]
+        tot = total_num.text.split('+')
+        totatt = tot[0]
+        total_number = int(totatt)
 
-    total_num = driver.find_elements_by_xpath("//button[@type='button']")[2]
-    tot = total_num.text.split('+')
-    totatt = tot[0]
-    total_number = int(totatt)
+        print(total_number)
+    except:
+        pass
 
-    print(total_number)
+
     a = True
     while a:
         try:
@@ -98,14 +104,16 @@ def gomet(num):
             if current_count < 2:
                 print('get out')
                 driver.find_element_by_xpath('''//button[@aria-label="Leave"]''').click()
+                driver.find_element_by_xpath('''//buttton[@data-automation-id="attendee-leave-confirm"''')
                 break
             if current_count < (total_number / 3):
                 driver.find_element_by_xpath('''//button[@aria-label="Leave"]''').click()
+                driver.find_element_by_xpath('''//buttton[@data-automation-id="attendee-leave-confirm"''')
                 break
         except:
             pass
 
-
+    driver.__exit__()
 
 
 
