@@ -85,6 +85,7 @@ def gomet(num):
 
         print(total_number)
     except:
+        time.sleep(900)
         pass
 
 
