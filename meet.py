@@ -182,7 +182,7 @@ def enter_meet(mail,password,code):
         except():
             driver.refresh()
         join_button.click()
-    time.sleep(60)
+    time.sleep(900)
     element_body = wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body')))
     ele = element_body.get_attribute("outerHTML")
     if "You'll join the call when someone lets you in" in ele:
