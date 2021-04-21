@@ -56,6 +56,7 @@ def find_class():
     time = str(datetime.datetime.now().time()).split(':')
     cls = ''
     ti = time[0]+':'+time[1]
+    tiee = "08:00"
     if day == 'friday':
         for i in range(5):
             if ti >= ftimes[i].split('-')[0] and ti < ftimes[i].split('-')[1]:
@@ -72,7 +73,6 @@ def find_class():
                 exit()
 
     return cls, tiee
-
 # attendence marking...................................................................
 
 def submit():
@@ -89,6 +89,7 @@ def submit():
     time.sleep(3)
     u = True
     cun = 1
+    tii = find_class()[1]
     while u:
         try:
 
@@ -101,11 +102,11 @@ def submit():
             cun+=1
             print(cun)
 
-            tii = find_class()[1]
             t = tii.split(':')
             timmm = t[0] + ':' + str(int(t[1]) + 20)
             timee = str(datetime.datetime.now().time()).split(':')
             ti = timee[0] + ':' + timee[1]
+            print(ti,timmm)
             if ti > timmm:
                 print('no attendence ')
                 driver.__exit__()
@@ -129,7 +130,6 @@ def submit():
     driver.find_element_by_id('id_submitbutton').click()
     print("attendence marked")
     driver.__exit__()
-
 
 def awp():
     u = True
@@ -316,6 +316,16 @@ def mark_attend():
     print(clss)
     print(tim)
     attendence(moodle_creds['email'],moodle_creds['passwd'],clss)
+
+
+timee = str(datetime.datetime.now().time()).split(':')
+ti = timee[0] + ':' + timee[1]
+b = datetime.datetime.now()
+a = datetime.datetime.strptime('08:35','%H:%M')
+
+
+if ti < '08:30':
+    pause.until(datetime.datetime(b.year,b.month,b.day,a.hour,a.minute))
 
 
 while True:
