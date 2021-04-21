@@ -58,12 +58,15 @@ def find_class():
     time = str(datetime.datetime.now().time()).split(':')
     cls = ''
     ti = time[0]+':'+time[1]
+    tiee="08:00"
     if day == 'friday':
         for i in range(5):
             if ti >= ftimes[i].split('-')[0] and ti < ftimes[i].split('-')[1]:
                 cls = classes[i]
                 tiee = ftimes[i].split('-')[1]
             elif ti > ftimes[4].split('-')[1]:
+                print('find class 1')
+                print(ti, ftimes[4].split('-')[1])
                 exit()
     else:
         for i in range(5):
@@ -71,6 +74,8 @@ def find_class():
                 cls = classes[i]
                 tiee = times[i].split('-')[1]
             elif ti > times[4].split('-')[1]:
+                print('find class 2')
+                print(ti,times[4].split('-')[1])
                 exit()
 
     return cls, tiee
@@ -92,6 +97,19 @@ def stop():
     ti = timee[0] + ':' + timee[1]
     print(ti)
     print(tim)
+
+
+timee = str(datetime.datetime.now().time()).split(':')
+ti = timee[0] + ':' + timee[1]
+b = datetime.datetime.now()
+a = datetime.datetime.strptime('08:35','%H:%M')
+
+
+if ti < '08:30':
+    pause.until(datetime.datetime(b.year,b.month,b.day,a.hour,a.minute))
+
+
+
 
 while True:
     clss = find_class()[0]
