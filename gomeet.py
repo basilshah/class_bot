@@ -69,7 +69,7 @@ def gomet(num):
 
 
         a = driver.find_elements_by_xpath("//button[@type='button']")
-        a[8].click()
+        a[-1].click()
     body = wait.until(
         EC.visibility_of_element_located((By.CSS_SELECTOR, 'button[aria-label="Share microphone after join"]')))
     try:
