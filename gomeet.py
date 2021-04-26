@@ -29,8 +29,8 @@ def gomet(num):
     driver.get('https://app.gotomeeting.com/index.html?meetingId='+num)
 
     time.sleep(3)
-    u = True
-    while u:
+    u = 2
+    while u< 3:
         try:
 
             body = wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body')))
@@ -38,16 +38,18 @@ def gomet(num):
             u = False
         except:
             driver.refresh()
+        u+=1
+    
     time.sleep(3)
-    u = True
-    while u:
+    u = 2
+    while u <3 :
         try:
 
             body = wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body')))
             driver.find_element_by_xpath('''//button[.='Save and continue']''').click()
-            u = False
         except:
             driver.refresh()
+        u+=1
 
     time.sleep(3)
     u = True
@@ -85,7 +87,7 @@ def gomet(num):
 
         print(total_number)
     except:
-        time.sleep(900)
+        time.sleep(60)
         pass
 
 
@@ -113,8 +115,6 @@ def gomet(num):
                 break
         except:
             pass
-
-    driver.__exit__()
-
+        driver.__exit__()
 
 
