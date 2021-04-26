@@ -115,6 +115,7 @@ def gomet(num):
                 break
         except:
             pass
-        driver.__exit__()
+    driver.__exit__()
+
 
 
