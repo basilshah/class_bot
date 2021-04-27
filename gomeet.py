@@ -107,11 +107,11 @@ def gomet(num):
             if current_count < 2:
                 print('get out')
                 driver.find_element_by_xpath('''//button[@aria-label="Leave"]''').click()
-                driver.find_element_by_xpath('''//buttton[@data-automation-id="attendee-leave-confirm"''').click()
+                driver.find_element_by_xpath('''//buttton[@data-automation-id="attendee-leave-confirm"]''').click()
                 break
             if current_count < (total_number / 3):
                 driver.find_element_by_xpath('''//button[@aria-label="Leave"]''').click()
-                driver.find_element_by_xpath('''//buttton[@data-automation-id="attendee-leave-confirm"''').click()
+                driver.find_element_by_xpath('''//buttton[@data-automation-id="attendee-leave-confirm"]''').click()
                 break
         except:
             pass
