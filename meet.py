@@ -46,11 +46,12 @@ def find_day():
 def find_class():
     day = find_day()
     classes = subjects[day]
-    times =['08:35-09:30','09:35-10:30','10:35-11:30','11:35-12:30','12:35-13:30']
-    ftimes = ['08:35-09:10','09:20-10:00','10:10-10:50','11:00-11:40','11:50-12:30']
+    times = ['08:35-09:35', '09:35-10:35', '10:35-11:35', '11:35-12:35', '12:35-13:35']
+    ftimes = ['08:35-09:20', '09:20-10:10', '10:10-11:00', '11:00-11:50', '11:50-12:30']
     time = str(datetime.datetime.now().time()).split(':')
     cls = ''
     ti = time[0]+':'+time[1]
+    tiee = "08:35"
     if day == 'friday':
         for i in range(5):
             if ti >= ftimes[i].split('-')[0] and ti < ftimes[i].split('-')[1]:
@@ -83,6 +84,7 @@ def leave_class():
             total_number = int(total_num.text)
             print(total_number)
             a = False
+            
             print("leave")
         except:
             pass
@@ -92,12 +94,12 @@ def leave_class():
         try :
             time.sleep(5)
             current_coun = total_num.text
-            print(current_coun,end='')
-            print('txt')
+
         except:
             break
         try:
             current_count = int(current_coun)
+            print(current_count,total_number / 2)
             if current_count > total_number:
                 total_number = current_count
             if current_count < 2:
@@ -168,9 +170,19 @@ def enter_meet(mail,password,code):
             print('strt')
             driver.get(url)
             time.sleep(4)
-            join_button = wait.until(EC.visibility_of_element_located((By.XPATH,
-                                                                       '//*[@id="yDmH0d"]/c-wiz/div/div/div[9]/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/span/span')))
-            time.sleep(5)
+            try:
+                join_button = wait.until(EC.visibility_of_element_located((By.XPATH,
+                                                                           '//*[@id="yDmH0d"]/c-wiz/div/div/div[9]/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/span/span')))
+                time.sleep(5)
+            except:
+                element_body = wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body')))
+                ele = element_body.get_attribute("outerHTML")
+                if "It's taking too long to connect you to this video call. Try again in a few minutes." in ele:
+                    driver.refresh()
+                    join_button = wait.until(EC.visibility_of_element_located((By.XPATH,
+                                                                               '//*[@id="yDmH0d"]/c-wiz/div/div/div[9]/div[3]/div/div/div[2]/div/div[1]/div[2]/div/div[2]/div/div[1]/div[1]/span/span')))
+                    time.sleep(5)
+
             for i in range(3):
                 bdy_source = driver.page_source
                 if r'data-tooltip="Turn off microphone (ctrl + d)" data-is-muted="false"' in bdy_source:
@@ -183,13 +195,17 @@ def enter_meet(mail,password,code):
             driver.refresh()
         join_button.click()
     time.sleep(900)
+    print("abc")
     element_body = wait.until(EC.visibility_of_element_located((By.XPATH, '/html/body')))
     ele = element_body.get_attribute("outerHTML")
-    if "You'll join the call when someone lets you in" in ele:
+    if "You'll join the call when someone lets you in" in ele or "You can't join this call" in ele:
+        print('no class')
         driver.__exit__()
         return 0
     leave_class()
     driver.__exit__()
+
+
 
 
 
