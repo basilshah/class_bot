@@ -28,13 +28,13 @@ count = 1
 
 
 
-# enter your moodule account details
-moodle_creds = {'email': '', 'passwd' : ''}
+
+moodle_creds = {'email': 'basilshah.cm@gmail.com', 'passwd' : 'Basil@1511'}
 subjects = {'monday' : ['dc','oops','vlsi','rtos','dip'],
-            'tuesday' : ['awp','awp','dc','rtos','es'],
+            'tuesday' : ['awp','awp','dc','rtos','CElab'],
             'wednesday' :['vlsi','es','awp','dc','oops'],
             'thursday' :['rtos','es','vlsi','dip','dc'],
-            'friday' :['oops','dip','comp','comp','mentoring']
+            'friday' :['oops','dip','es','MClab','']
             }
 
 
@@ -51,28 +51,26 @@ def find_class():
     global tiee
     day = find_day()
     classes = subjects[day]
-    times =['08:35-09:30','09:35-10:30','10:35-11:30','11:35-12:30','12:35-13:30']
-    ftimes = ['08:35-09:10','09:20-10:00','10:10-10:50','11:00-11:40','11:50-12:30']
+    times = ['08:35-09:35', '09:35-10:35', '10:35-11:35', '11:35-12:35', '12:35-13:35']
+    ftimes = ['08:35-09:20', '09:20-10:10', '10:10-11:00', '11:00-11:50', '11:50-12:30']
     time = str(datetime.datetime.now().time()).split(':')
     cls = ''
     ti = time[0]+':'+time[1]
-    tiee = "08:00"
+    tiee = "08:35"
     if day == 'friday':
         for i in range(5):
             if ti >= ftimes[i].split('-')[0] and ti < ftimes[i].split('-')[1]:
                 cls = classes[i]
                 tiee = ftimes[i].split('-')[1]
-            elif ti > ftimes[4].split('-')[1]:
-                exit()
+
     else:
         for i in range(5):
             if ti >= times[i].split('-')[0] and ti < times[i].split('-')[1]:
                 cls = classes[i]
                 tiee = times[i].split('-')[1]
-            elif ti > times[4].split('-')[1]:
-                exit()
 
     return cls, tiee
+
 # attendence marking...................................................................
 
 def submit():
@@ -130,6 +128,36 @@ def submit():
     driver.find_element_by_id('id_submitbutton').click()
     print("attendence marked")
     driver.__exit__()
+
+
+def CElab():
+    u = True
+    time.sleep(3)
+    while u:
+        try:
+            body = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div.card.dashboard-card')))
+            # find element by the text name
+            driver.find_element_by_xpath('''//span[.=' S6 ECB COMMUNICATION LAB ']''').click()
+            u = False
+        except:
+            driver.refresh()
+    submit()
+
+def MClab():
+    u = True
+    time.sleep(3)
+    while u:
+        try:
+            body = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div.card.dashboard-card')))
+            # find element by the text name
+            driver.find_element_by_xpath('''//span[.='
+            MICROCONTROLLER LAB
+        ']''').click()
+            u = False
+        except:
+            driver.refresh()
+    submit()
+
 
 def awp():
     u = True
@@ -249,22 +277,6 @@ def comp():
             driver.refresh()
     submit()
 
-"""def rtos():
-    u = True
-    while u:
-        try:
-
-            body = wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'div.card.dashboard-card')))
-
-            # find element by the text name
-            driver.find_element_by_xpath('''//span[.='
-            EC366 Real time operating system Elective/Honors
-        ']''').click()
-            u = False
-        except:
-            driver.refresh()
-    submit()
-"""
 
 def attendence(email,passwd,subject):
     global driver ,wait
@@ -298,9 +310,6 @@ def attendence(email,passwd,subject):
     if subject == 'dip':
         dip()
 
-    """if subject == 'rtos':
-        rtos()"""
-
     if subject == 'oops':
         oops()
 
@@ -308,6 +317,11 @@ def attendence(email,passwd,subject):
         es()
     if subject == 'comp':
         comp()
+    if subject == 'MClab':
+        MClab()
+
+    if subject == 'CElab':
+        CElab()
 
 
 def mark_attend():
@@ -318,23 +332,23 @@ def mark_attend():
     attendence(moodle_creds['email'],moodle_creds['passwd'],clss)
 
 
-timee = str(datetime.datetime.now().time()).split(':')
-ti = timee[0] + ':' + timee[1]
-b = datetime.datetime.now()
-a = datetime.datetime.strptime('08:35','%H:%M')
+q = datetime.datetime.now()
+z = q.replace(hour=8,minute=35)
 
-
-if ti < '08:30':
-    pause.until(datetime.datetime(b.year,b.month,b.day,a.hour,a.minute))
-
+if q < z :
+    pause.until(z)
 
 while True:
-    tim = find_class()[1]
     q = datetime.datetime.now()
+    endl = q.replace(hour=1,minute=35)
+    if q > endl:
+        srt = q.replace(day=q.day + 1, hour=8, minute=35)
+        print("pause untile : ", srt)
+        pause.until(srt)
+    tim = find_class()[1]
     timee = str(q.time()).split(':')
     ti = timee[0] + ':' + timee[1]
-    a = datetime.datetime.strptime(tim,'%H:%M')
-    b= datetime.datetime(q.year,q.month,q.day,a.hour,a.minute)
+    strt = q.replace(hour=int(tim[0:2]), minute=int(tim[3:]))
 
     if ti < tim :
         mark_attend()
@@ -343,6 +357,5 @@ while True:
         except:
             pass
 
-        print("pause untile : ",b)
-        pause.until(b)
-
+    print("pause untile : ",strt)
+    pause.until(strt)
