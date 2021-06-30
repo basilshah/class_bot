@@ -62,12 +62,16 @@ def find_class():
             if ti >= ftimes[i].split('-')[0] and ti < ftimes[i].split('-')[1]:
                 cls = classes[i]
                 tiee = ftimes[i].split('-')[1]
+            elif ti > ftimes[4].split('-')[1]:
+                exit()
 
     else:
         for i in range(5):
             if ti >= times[i].split('-')[0] and ti < times[i].split('-')[1]:
                 cls = classes[i]
                 tiee = times[i].split('-')[1]
+            elif ti > ftimes[4].split('-')[1]:
+                exit()
 
     return cls, tiee
 
@@ -336,26 +340,22 @@ q = datetime.datetime.now()
 z = q.replace(hour=8,minute=35)
 
 if q < z :
+    print('pause')
     pause.until(z)
 
 while True:
-    q = datetime.datetime.now()
-    endl = q.replace(hour=1,minute=35)
-    if q > endl:
-        srt = q.replace(day=q.day + 1, hour=8, minute=35)
-        print("pause untile : ", srt)
-        pause.until(srt)
     tim = find_class()[1]
+    q = datetime.datetime.now()
     timee = str(q.time()).split(':')
     ti = timee[0] + ':' + timee[1]
-    strt = q.replace(hour=int(tim[0:2]), minute=int(tim[3:]))
-
+    a = datetime.datetime.strptime(tim,'%H:%M')
+    b= datetime.datetime(q.year,q.month,q.day,a.hour,a.minute)
     if ti < tim :
         mark_attend()
         try:
             driver.__exit__()
         except:
             pass
+        print("pause untile : ",b)
+        pause.until(b)
 
-    print("pause untile : ",strt)
-    pause.until(strt)
