@@ -29,7 +29,7 @@ count = 1
 
 
 
-moodle_creds = {'email': 'basilshah.cm@gmail.com', 'passwd' : 'Basil@1511'}
+moodle_creds = {'email': 'basilshah.cm@gmail.com', 'passwd' : ''}
 subjects = {'monday' : ['dc','oops','vlsi','rtos','dip'],
             'tuesday' : ['awp','awp','dc','rtos','CElab'],
             'wednesday' :['vlsi','es','awp','dc','oops'],
